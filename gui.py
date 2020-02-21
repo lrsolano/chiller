@@ -420,7 +420,7 @@ class Toplevel1:
         #verifica se o fluido está no intervalo de super aquecido ou saturado
         if (s2_r134 >= s_r134[0]) and (s2_r134 <= s_r134[-1]):
             h_r134 = (dado_r134['Entalpia h  kJ/kg']).dropna()
-            f4_r134 = interpolate.interp1d(s_r134,h_r134)
+            f4_r134 = interpolate.interp1d(s_r134,h_r134,kind='cubic')
             h2_r134 = f4_r134(s2_r134)
             self.Respostas.insert('3.0','h2: {:.2f}kJ/kg \n'.format(h2_r134))
         else:
@@ -436,7 +436,7 @@ class Toplevel1:
         hl_r134 = dados_r134['Líquido hl']
         f5_r134 = interpolate.interp1d(p_r134,hl_r134,kind='cubic')
         h3_r134 = f5_r134(P3)
-        h4_r134 = f5_r134(P3)
+        h4_r134 = h3_r134
         self.Respostas.insert('4.0',"Pressão 3: {:.2f}KPa \n".format(P3))
         self.Respostas.insert('5.0',"h3: {:.2f}kJ/kg \n".format(h3_r134))
         self.Respostas.insert('6.0',"h4: {:.2f}kJ/kg \n".format(h4_r134))
