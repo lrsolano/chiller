@@ -429,15 +429,10 @@ class Toplevel1:
         
         #PONTO 3 e 4
         #realiza interpolação com base nos dados anteriores
-        dados_r134 = pd.read_excel("tabelas_termicas.xlsx", sheet_name = 'R134a Saturado')
-        temps_r134 = dados_r134['Temperatura °C']
-        hvs_r134 = dados_r134['Líquido hl']
-        svs_r134 = dados_r134['Líquido sl']
-        p_r134 = dados_r134['Pressão kPa']
-        f_r134 = interpolate.interp1d(p_r134,hvs_r134,kind='cubic')
-        f3_r134 = interpolate.interp1d(p_r134,svs_r134,kind='cubic')
-        h3_r134 = f_r134(P3)
-        h4_r134 = f_r134(P3)
+        hl_r134 = dados_r134['Líquido hl']
+        f5_r134 = interpolate.interp1d(p_r134,hl_r134,kind='cubic')
+        h3_r134 = f5_r134(P3)
+        h4_r134 = f5_r134(P3)
         self.Respostas.insert('4.0',"Pressão 3: {:.2f}KPa \n".format(P3))
         self.Respostas.insert('5.0',"h3: {:.2f}kJ/kg \n".format(h3_r134))
         self.Respostas.insert('6.0',"h4: {:.2f}kJ/kg \n".format(h4_r134))
@@ -452,7 +447,7 @@ class Toplevel1:
         self.Respostas.insert('8.0',"Ql: {:.2f}KJ/Kg \n".format(QL1))
         self.Respostas.insert('9.0',"Qh: {:.2f}KJ/Kg \n".format(QH))
         Wbomba = g*H
-        h8_r134 = f_r134(P8)
+        h8_r134 = f5_r134(P8)
         
         h5_r134 = h8_r134 + QH
         
@@ -469,7 +464,7 @@ class Toplevel1:
         P7 = ((ro*g*H_r)/1000) + P8
         self.Respostas.insert('14.0',"Pressão 7: {:.2f}KPa \n".format(P7))
         
-        h7_r134 = f_r134(P7)
+        h7_r134 = f5_r134(P7)
         self.Respostas.insert('15.0',"h7: {:.2f}kJ/kg \n".format(h7_r134))
         self.Respostas.insert('16.0',"Pressão 8: {:.2f}KPa \n".format(P8))
         self.Respostas.insert('17.0',"h8: {:.2f}kJ/kg \n".format(h8_r134))
