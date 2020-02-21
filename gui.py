@@ -396,18 +396,22 @@ class Toplevel1:
         #encontrar a pressão mais proxima da tabela
         s2_r134 = s1_r134
         pressao_r134 = [50,100,150,200,300,450,500,600,800,1000,1200,1400,1600,2000,3000,4000,6000,10000]
-        for a in range(len(pressao_r134)):
-            if pressao_r134[a] == P2:
-                p2a = pressao_r134[a]
-            elif pressao_r134[a] <= P2 and pressao_r134[a+1] >= P2:
-                if (P2 - pressao_r134[a]) >= (pressao_r134[a+1] - P2):
-                    p2a = pressao_r134[a+1]
-                else:
-                    p2a = pressao_r134[a]
-            if P2 < pressao_r134[0]:
-                p2a = pressao_r134[0]
-            if P2 > pressao_r134[-1]:
-                p2a = pressao_r134[-1]
+        if P2 < pressao_r134[0]:
+            p2a = pressao_r134[0]
+        elif P2 > pressao_r134[-1]:
+            p2a = pressao_r134[-1]
+        elif P2 in pressao_r134:
+            p2a = int(P2)
+        else:
+            for a in range(len(pressao_r134)):
+                if pressao_r134[a] <= P2 and pressao_r134[a+1] >= P2:
+                    if (P2 - pressao_r134[a]) >= (pressao_r134[a+1] - P2):
+                        p2a = pressao_r134[a+1]
+                        break
+                    else:
+                        p2a = pressao_r134[a]
+                        break
+            
         #encontra a tabela para a pressão correta
         tabela = '{}k'.format(p2a)
         dado_r134 = pd.read_excel("R134a.xlsx", sheet_name = tabela)
